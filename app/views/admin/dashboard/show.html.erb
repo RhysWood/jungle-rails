@@ -1,2 +1,14 @@
-<h1>Admin::Dashboard#show</h1>
-<p>Find me in app/views/admin/dashboard/show.html.erb</p>
+<h1>Welcome to the Admin Dashboard</h1>
+
+<table class="table table-success table-striped">
+     <tr>
+          <th colspan="2">Number of Products</th>
+          <th>Number of Categories</th>
+      </tr>
+  <tbody>
+    <tr>
+      <td scope="row"> <%= @products.length %> </td>
+      <td colspan="2" class="table-active"><%= @categories.length %></td>
+    </tr>
+  </tbody>
+</table>
