@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 20160625062916) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "items", force: :cascade do |t|
+    t.string  "title",       limit: 50
+    t.string  "description", limit: 250
+    t.decimal "price"
+    t.integer "rating"
+  end
+
   create_table "line_items", force: :cascade do |t|
     t.integer  "order_id"
     t.integer  "product_id"
@@ -40,7 +47,12 @@ ActiveRecord::Schema.define(version: 20160625062916) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "stripe_charge_id"
-    t.string   "email"
+  end
+
+  create_table "orders_items", force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "order_id"
+    t.integer "quantity"
   end
 
   create_table "products", force: :cascade do |t|
@@ -56,7 +68,16 @@ ActiveRecord::Schema.define(version: 20160625062916) do
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
 
+  create_table "users", force: :cascade do |t|
+    t.string  "name",         limit: 250
+    t.string  "email",        limit: 250
+    t.string  "password",     limit: 250
+    t.integer "phone_number", limit: 8
+    t.boolean "is_owner"
+  end
+
   add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "products"
+  add_foreign_key "orders_items", "items", name: "orders_items_item_id_fkey"
   add_foreign_key "products", "categories"
 end
