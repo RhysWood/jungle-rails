@@ -2,9 +2,11 @@ class UsersController < ApplicationController
   def create
     @new_user = User.new(user_params)
     if @new_user.save 
-      redirect_to login_path
+      session[:user_id] = user.id
+      redirect_to '/'
     else 
-      redirect_to new_user_path, flash: { error: @new_user.errors.full_messages.first }
+      redirect_to '/signup'
+      # redirect_to new_user_path, flash: { error: @new_user.errors.full_messages.first }
     end
   end
 
@@ -27,6 +29,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 end
