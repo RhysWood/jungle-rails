@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
     it 'should be created with the required fields' do
       @user = User.new({
         name: "John",
-        email: "email@email.com",
+        email: "test@email.com",
         password: "password",
         password_confirmation: "password"
       })
@@ -68,7 +68,38 @@ RSpec.describe User, type: :model do
   end
 
   describe '.authenticate_with_credentials' do
-    # exam
+    before(:all) do
+      @control = User.create({
+        name: "John",
+        email: "email@email.com",
+        password: "password",
+        password_confirmation: "password"
+      })
+    end 
+
+    it 'should authenticate with the correct input' do
+      email = "email@email.com"
+      password = "password"
+      @user = User.authenticate_with_credentials(email, password)
+
+      expect(@user).not_to be_nil
+    end
+
+    it 'should authenticate with spaces before or after the email ' do
+      email = "  email@email.com "
+      password = "password"
+      @user = User.authenticate_with_credentials(email, password)
+
+      expect(@user).not_to be_nil
+    end
+
+    it 'should authenticate if the email case incorrect' do
+      email = "EMAIL@EmaIL.com"
+      password = "password"
+      @user = User.authenticate_with_credentials(email, password)
+
+      expect(@user).not_to be_nil
+    end
   end
 
 end
