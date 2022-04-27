@@ -22,7 +22,29 @@ RSpec.describe User, type: :model do
       expect(@user).to be_invalid
       expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
     end
-    
+
+    it 'should require name' do
+      @user = User.new({
+        name: nil,
+        email: "user@example.com",
+        password: "password1",
+        password_confirmation: "password1"
+      })
+      expect(@user).to be_invalid
+      expect(@user.errors.full_messages).to include "Name can't be blank"
+    end
+
+    it 'should require email' do
+      @user = User.new({
+        name: 'John',
+        email: nil,
+        password: "password1",
+        password_confirmation: "password1"
+      })
+      expect(@user).to be_invalid
+      expect(@user.errors.full_messages).to include "Email can't be blank"
+    end
+
     describe "emails must be unique" do
       before(:all) do
         @setup = User.create({
